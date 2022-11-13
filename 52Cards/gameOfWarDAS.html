@@ -1,0 +1,220 @@
+<html>
+
+	<head>
+		
+		<title>A Game of War</title>
+		<!--Background sourced from Google
+		Custom buttons sourced from https://www.khanacademy.org/computer-programming/simple-css-animated-buttons/4041952925
+		These buttons were created by me 4 years ago for easy access and usage in the future.-->
+		<style>
+			body
+			{
+				background-image: url(redblackcards.jpg);
+				border: groove;
+				border-color: darkred darkslategrey;
+				border-width: 5em;
+				border-radius: 60px;
+				padding: 50px;
+				font-size: 30px;
+				color: lightgrey;
+				font-family: mistral;
+				text-align: center;
+			}
+			.button
+			{
+				display: inline-block;
+				padding: 15px 25px;
+				font-size: 28px;
+				font-family: mistral;
+				cursor: pointer;
+				text-align: center;	
+				text-decoration: none;
+				outline: none;
+				color: white;
+				background-color: lightgray;
+				border: none;
+				border-radius: 70px;
+				box-shadow: 0 9px #999;
+			}
+			.button:hover 
+			{
+				background-color: darkgray;
+			}
+			.button:active
+			{
+				background-color: gray;
+				box-shadow: 0 5px #666;
+				transform: translateY(4px);
+			}
+			.button1
+			{
+				display: inline-block;
+				padding: 15px 25px;
+				font-size: 28px;
+				font-family: mistral;
+				cursor: pointer;
+				text-align: center;	
+				text-decoration: none;
+				outline: none;
+				color: white;
+				background-color: lightgray;
+				border: none;
+				border-radius: 70px;
+				box-shadow: 0 9px #999;
+			}
+			.button1:hover 
+			{
+				background-color: darkgray;
+			}
+			.button1:active
+			{
+				background-color: gray;
+				box-shadow: 0 5px #666;
+				transform: translateY(4px);
+			}
+			.button2
+			{
+				display: inline-block;
+				padding: 15px 25px;
+				font-size: 28px;
+				font-family: mistral;
+				cursor: pointer;
+				text-align: center;	
+				text-decoration: none;
+				outline: none;
+				color: white;
+				background-color: lightgray;
+				border: none;
+				border-radius: 70px;
+				box-shadow: 0 9px #999;
+			}
+			.button2:hover 
+			{
+				background-color: darkgray;
+			}
+			.button2:active
+			{
+				background-color: gray;
+				box-shadow: 0 5px #666;
+				transform: translateY(4px);
+			}
+		</style>
+		
+		<script>
+			var cardDeck = [];
+			
+			var countCompWins = 0;
+				
+			var countPlayerWins = 0;
+				
+			var countRounds = 0;
+				
+				//Creates an array of 52 cards
+				function displayCards()
+				{
+					for (var i = 0; i <= 52; i++)
+					{
+						cardDeck[i] = i;
+						
+					}
+					
+					//Displays the default score for the players
+					idDivComp.innerHTML = countCompWins;
+					idDivPlayer.innerHTML = countPlayerWins;
+				}
+				
+				//Generates cards for the computer and player
+				function genCards()
+				{
+					//Generates a unique random number for each player
+					var output = "";
+					var randPlayerNum = Math.floor(Math.random() * 52);
+					var randCompNum = Math.floor(Math.random() * 52);
+					
+					//Stores the random numbers in the console
+					console.log(randPlayerNum);
+					console.log(randCompNum);
+					
+					//Appends the card images to the random numbers generated
+					idPlayerCard.src = randPlayerNum + '.jpg';
+					idCompCard.src = randCompNum + '.jpg';
+					
+					//Displays the current score for the players
+					idDivComp.innerHTML = countCompWins;
+					idDivPlayer.innerHTML = countPlayerWins;
+					
+					if (randPlayerNum%13 < randCompNum%13)
+					{
+						countCompWins++;
+					}
+					else if (randPlayerNum%13 > randCompNum%13)
+					{
+						countPlayerWins++;
+					}				
+					else
+					{
+						window.alert("The player and the computer are tied. Neither player gets any points.");
+					}
+					
+					if (countPlayerWins > countCompWins)
+					{
+						output += "The player is winning!";
+						idDivOutcome.innerHTML = output;
+					}
+					else if (countPlayerWins < countCompWins)
+					{
+						output += "The computer is winning!";
+						idDivOutcome.innerHTML = output;
+					}
+					else 
+					{
+						output += "The two users are tied!";
+						idDivOutcome.innerHTML = output;
+					}
+				
+				}
+				
+				//Deals a tie for the players every round
+				function pacifistMode()
+				{
+					//Generates the SAME random number for the two players
+					var output = "";
+					var randNum = Math.floor(Math.random() * 52);
+					
+					//Appends the card images to the random number generated
+					idPlayerCard.src = randNum + '.jpg';
+					idCompCard.src = randNum + '.jpg';
+				}
+				
+				//Resets all settings of the game to default
+				function restartGame()
+				{
+					location.reload();
+				}
+		</script>
+		
+	</head>
+	
+	<body onLoad="displayCards()">
+			<form>
+					Player Score: <div id=idDivPlayer></div>
+					Computer Score: <div id=idDivComp></div>
+					<br><br>
+					
+					<input type="button" class="button" value="Deal the next round" onClick="genCards()">
+					<br><br>
+					
+					<input type="reset" class="button1" value="Restart Game" onClick="restartGame()">
+					<br><br>
+					
+					<input type="button" class="button2" value="Play pacifist" onClick="pacifistMode()">
+					<br><br>
+					
+					<div id=idDivOutcome></div>
+					<br><br>
+					
+					<img src="cardback.png" width=500 id=idPlayerCard></img> <img src="cardback.png" width=500 id=idCompCard></img>
+			</form>
+	</body>
+	
+</html>
