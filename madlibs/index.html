@@ -1,0 +1,139 @@
+<html>
+
+	<head>
+		
+		<title>Mad Libs</title>
+		
+		<link rel=stylesheet type="text/css" href="myStyleDAS.css">
+		<link rel=stylesheet type="text/css" href="main.css">
+		<link rel=stylesheet type="text/css" href="font-awesome.min.css">
+		
+		<style>
+				body{
+						background-image: url("peasanthouse.jpg");
+						background-color: rgba(255, 255, 255, 0.9);
+						background-blend-mode: lighten;
+						background-repeat: no-repeat;
+						background-position: center;
+						background-size: cover;
+				    }
+		</style>
+		
+		<script>
+				function generateStory(){
+					var output = "";
+					output += "There once was a <wonky>" + idAdjective1.value + "</wonky> peasant boy named "
+					output += "<wonky>" + idHeroName.value + "</wonky>. <wonky>" + idHeroName.value + "</wonky> was a good boy, and he always listened to his mother. "
+					output += "One day, he came home to find his mother in the middle of practicing witchcraft.<br>'Mother,' he cried, 'what are you doing?'"
+					output += "<br>'Doing <wonky>" + idActivity.value + "</wonky>,' she replied in a monotonous voice."
+					output += "<br>'That doesn’t look like <wonky>" + idActivity.value + "</wonky>.' <wonky>" + idHeroName.value + "</wonky> set down his basket of <wonky>" + idFood.value + "</wonky>. But suddenly, a <wonky>" + idCreature.value + "</wonky> appeared!"
+					output += "<br>'MOTHER! WHAT IS THAT?!' he screamed, knocking away the basket of <wonky>" + idFood.value + "</wonky> on accident."
+					output += "<br> '<wonky>" + idVillainName.value + "</wonky>, the <wonky>" + idCreature.value + "</wonky> that’s going to do our <wonky>" + idActivity.value + "</wonky> for us,' she replied again. '<wonky>" + idHeroName.value + "</wonky>, stop asking questions. Go do some peasant boy things.' "
+					output += "<wonky>" + idHeroName.value + "</wonky>, being the good peasant boy he is, stopped asking questions and decided to go <wonky>" + idActionVerb.value + "</wonky> in a river. "
+					output += "From then on, he began to question everything his mother told him. He was too afraid to go home and meet <wonky>" + idVillainName.value + "</wonky>, so he started to spend most of his days in a <wonky>" + idPlace.value + "</wonky>. "
+					output += "<wonky>" + idHeroName.value + "</wonky> thought the <wonky>" + idPlace.value + "</wonky> would keep him safe from the <wonky>" + idCreature.value + "</wonky>. But of course, he was wrong."
+					output += "<br>'Hi,' said <wonky>" + idVillainName.value + "</wonky>."
+					output += "<br>'AHHHHH!' screeched <wonky>" + idHeroName.value + "</wonky>. 'How did you get in here?! The <wonky>" + idPlace.value + "</wonky> is supposed to keep out <wonky>" + idCreature.value + "</wonky>s like you!'"
+					output += "<br>'No, you’re just <wonky>" + idAdjective2.value + "</wonky>.' The <wonky>" + idCreature.value + "</wonky> <wonky>" + idAdverb.value + "</wonky> sat down next to <wonky>" + idHeroName.value + "</wonky>, who looked absolutely terrified. "
+					output += "'Look, bro. I’m just here to do your <wonky>" + idActivity.value + "</wonky> because you guys are too lazy and poor to do it yourselves. Now gimme your soul as payment.' "
+					output += "This shocked <wonky>" + idHeroName.value + "</wonky> to the core.<br>'What? No! I have a life to live!' he pleaded."
+					output += "<br>'Not really. But it’s not like you have money either.' <wonky>" + idVillainName.value + "</wonky> shrugged. "
+					output += "<br>'Why do you have to roast me like that?' Tears formed in <wonky>" + idHeroName.value + "</wonky>’s frightened eyes."
+					output += "<br>'You know what? Sike. Roasting you is payment enough. Bye noob.' "
+					output += "And so the <wonky>" + idCreature.value + "</wonky> cackled and went on his way, leaving poor <wonky>" + idHeroName.value + "</wonky> to be swamped in bamboozement."
+					idDivOutput.innerHTML = output;
+				}
+				
+				function showOriginal(){
+					var output = "";
+					output += "There once was a small peasant boy named "
+					output += "<wonky>Maximus</wonky>. <wonky>Maximus</wonky> was a good boy, and he always listened to his mother. "
+					output += "One day, he came home to find his mother in the middle of practicing witchcraft.<br>'Mother,' he cried, 'what are you doing?'"
+					output += "<br>'Doing <wonky>chores</wonky>,' she replied in a rather monotonous voice."
+					output += "<br>'That doesn’t look like <wonky>chores</wonky>.' Maximus set down his basket of <wonky>berries</wonky>. But suddenly, a <wonky>demon</wonky> appeared!"
+					output += "<br>'MOTHER! WHAT IS THAT?!' he screamed, knocking away the basket of <wonky>berries</wonky> on accident."
+					output += "<br> '<wonky>Lucifer</wonky>, the <wonky>demon</wonky> that’s going to do our <wonky>chores</wonky> for us,' she replied again. '<wonky>Maximus</wonky>, stop asking questions. Go do some peasant boy things.' "
+					output += "<wonky>Maximus</wonky>, being the good peasant boy he is, stopped asking questions and decided to go <wonky>jump</wonky> in a river. "
+					output += "From then on, he began to question everything his mother told him. He was too afraid to go home and meet <wonky>Lucifer</wonky>, so he started to spend most of his days in a <wonky>sunflower patch.</wonky> "
+					output += "<wonky>Maximus</wonky> thought the <wonky>sunflower patch</wonky> would keep him safe from the <wonky>demon</wonky>. But of course, he was wrong."
+					output += "<br>'Hi,' said <wonky>Lucifer</wonky>."
+					output += "<br>'AHHHHH!' screeched <wonky>Maximus</wonky>. 'How did you get in here?! The <wonky>sunflower patch</wonky> is supposed to keep out <wonky>demon</wonky>s like you!'"
+					output += "<br>'No, you’re just <wonky>stupid</wonky>.' The <wonky>demon</wonky> <wonky>casually</wonky> sat down next to <wonky>Maximus</wonky>, who looked absolutely terrified. "
+					output += "'Look, bro. I’m just here to do your <wonky>chores</wonky> because you guys are too lazy and poor to do it yourselves. Now gimme your soul as payment.' "
+					output += "This shocked <wonky>Maximus</wonky> to the core.<br>'What? No! I have a life to live!' he pleaded. "
+					output += "<br>'Not really. But it’s not like you have money either.' <wonky>Lucifer</wonky> shrugged. "
+					output += "<br>'Why do you have to roast me like that?' Tears formed in <wonky>Maximus</wonky>’s frightened eyes."
+					output += "<br>'You know what? Sike. Roasting you is payment enough. Bye noob.' "
+					output += "And so the <wonky>demon</wonky> cackled and went on his way, leaving poor <wonky>Maximus</wonky> to be swamped in bamboozement."
+					idDivOutput.innerHTML = output;
+				}
+		
+		</script>
+		
+	</head>
+	
+	<body>
+			<form>
+				<b>Fill in the blanks to create your own version of the story!</b><br><br>
+				
+				Type in your (male) hero's name:
+				<input type="text" id="idHeroName">
+				<br><br>
+				
+				Type in your villain's name:
+				<input type="text" id="idVillainName">
+				<br><br>
+				
+				Type in a place:
+				<input type="text" id="idPlace">
+				<br><br>
+				
+				Type in a food:
+				<input type="text" id="idFood">
+				<br><br>
+				
+				Select an action verb from the drop-down menu:
+				<select id="idActionVerb">
+					<option> jump </option>
+					<option> drown </option>
+					<option> vacuum </option>
+					<option> ponder </option>
+					<option> weep </option>
+				</select>
+				<br><br>
+				
+				Type in an adverb:
+				<input type="text" id="idAdverb">
+				<br><br>
+				
+				Type in an adjective:
+				<input type="text" id="idAdjective1">
+				<br><br>
+				
+				Type in another adjective:
+				<input type="text" id="idAdjective2">
+				<br><br>
+				
+				Type in an activity:
+				<input type="text" id="idActivity">
+				<br><br>
+				
+				Type in a type of creature that starts with a consonant and ends in s when made plural:
+				<input type="text" id="idCreature">
+				<br><br>
+				
+				Ready to see what it looks like? <br><br>
+				<input type="button" id="idCustomStory" value="Generate your custom story!" onClick="generateStory()">
+				<br><br>
+				
+				<input type="button" id="idOrigStory" value="Generate the original story" onClick="showOriginal()">
+				<br><br>
+				
+				<div id="idDivOutput">
+				</div>
+			
+			</form>
+		
+	</body>
+	
+</html>
