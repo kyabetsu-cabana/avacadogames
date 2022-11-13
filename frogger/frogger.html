@@ -1,0 +1,581 @@
+<html>
+<head>
+
+	<style>
+		canvas
+		{
+			background-image: url("frogger.jpg");
+			background-size: 100% 100%;
+		}
+	</style>
+
+	<script>
+
+
+		// This class represents a log object
+		class logClass
+		{
+			constructor(logX, logY,				// Location
+						logWidth, logHeight, logImg)	// Dimensions
+			{
+				//
+				// ADD YOUR CONSTRUCTOR CODE HERE
+				//
+				this.x = logX;
+				this.y = logY;
+				this.width = logWidth;
+				this.height = logHeight;
+
+				this.img = new Image();
+				this.img.src = logImg;
+			}
+
+
+			// This method will be called by the gameUpdate function.
+			// It should take care of all movement, including wrapping
+			// (the gameUpdate() function should not have to worry about wrapping)
+			move()
+			{
+				//
+				// ADD YOUR MOVEMENT CODE HERE
+				//
+
+				//
+				// ADD YOUR WRAP LOGIC HERE
+				//
+				if(this.x < 800)
+				{
+					this.x += 5;
+				}
+				else
+				{
+					this.x = 0 - this.width;
+				}
+			}
+
+			wrap()
+			{
+				//
+				// ADD YOUR MOVEMENT CODE HERE
+				//
+
+				//
+				// ADD YOUR WRAP LOGIC HERE
+				//
+				if(this.x < 800)
+				{
+					this.x += 10;
+				}
+				else
+				{
+					this.x = 0 - this.width;
+				}
+			}
+			
+			// This method will be called by the gameDraw function.
+			// It should draw a picture of the log on the screen.
+			draw()
+			{
+				//
+				// ADD YOUR DRAW CODE HERE
+				//
+				c.drawImage(this.img,
+				this.x,
+				this.y,
+				this.width,
+				this.height);
+			}
+		}
+
+		//
+		// Task #2 code (carClass) goes here
+		//
+		class carClass
+		{
+			constructor(carX, carY,				// Location
+						carWidth, carHeight, carImg)	// Dimensions
+			{
+				//
+				// ADD YOUR CONSTRUCTOR CODE HERE
+				//
+				this.x = carX;
+				this.y = carY;
+				this.width = carWidth;
+				this.height = carHeight;
+
+				this.img = new Image();
+				this.img.src = carImg;
+			}
+
+
+			// This method will be called by the gameUpdate function.
+			// It should take care of all movement, including wrapping
+			// (the gameUpdate() function should not have to worry about wrapping)
+			bounce()
+			{
+				if (picHorMove == true) // If pic is moving
+					{
+						if (picMovRight == true) //slide to the right
+						{
+							if (this.x <= cWidth - this.width)
+							{
+								this.img.src = "car2.png";
+								this.x += 3;
+							}
+							else
+							{
+								this.img.src = "car.png";
+								picMovRight = false; //slide to the left
+							}
+						}
+						if (picMovRight == false) 
+						{
+							if (this.x > 0)
+							{
+								this.img.src = "car.png";
+								this.x -= 3;
+							}
+							else
+							{
+								picMovRight = true;
+							}
+						}
+					}
+			}
+
+			backup()
+			{
+				if (picHorMove == true) // If pic is moving
+					{
+						if (picMovLeft == true) //slide to the right
+						{
+							if (this.x > 0)
+							{
+								this.img.src = "blue car.png";
+								this.x -= 5;
+							}
+							else
+							{
+								picMovLeft = false;
+							}
+						}
+						if (picMovLeft == false) 
+						{
+							if (this.x <= cWidth - this.width)
+							{
+								this.img.src = "blue car 2.png";
+								this.x += 5;
+							}
+							else
+							{
+								this.img.src = "blue car.png";
+								picMovLeft = true; //slide to the left
+							}
+						}
+					}
+			}
+			
+			slow()
+			{
+				if (picHorMove == true) // If pic is moving
+					{
+						if (picMovLeft == true) //slide to the right
+						{
+							if (this.x > 0)
+							{
+								this.img.src = "pink car.png";
+								this.x -= 10;
+							}
+							else
+							{
+								picMovLeft = false;
+							}
+						}
+						if (picMovLeft == false) 
+						{
+							if (this.x <= cWidth - this.width)
+							{
+								this.img.src = "pink car 2.png";
+								this.x += 10;
+							}
+							else
+							{
+								this.img.src = "pink car.png";
+								picMovLeft = true; //slide to the left
+							}
+						}
+					}
+			}
+			
+			drive()
+			{
+				if (picHorMove == true) // If pic is moving
+					{
+						if (picMovRight == true) //slide to the right
+						{
+							if (this.x <= cWidth - this.width)
+							{
+								this.img.src = "green car 2.png";
+								this.x += 8;
+							}
+							else
+							{
+								this.img.src = "green car.png";
+								picMovRight = false; //slide to the left
+							}
+						}
+						if (picMovRight == false) 
+						{
+							if (this.x > 0)
+							{
+								this.img.src = "green car.png";
+								this.x -= 8;
+							}
+							else
+							{
+								picMovRight = true;
+							}
+						}
+					}
+			}
+			
+			// This method will be called by the gameDraw function.
+			// It should draw a picture of the log on the screen.
+			draw()
+			{
+				//
+				// ADD YOUR DRAW CODE HERE
+				//
+				c.drawImage(this.img,
+				this.x,
+				this.y,
+				this.width,
+				this.height);
+			}
+		}
+
+		// This class represents the frog
+		class frogClass
+		{
+			constructor(frogX, frogY,			// Location
+						frogWidth, frogHeight,	// Dimensions
+						frogDirection, frogImg)			// Can be "Up", "Down", "Left", or "Right"
+			{
+				//
+				// ADD YOUR CONSTRUCTOR CODE HERE
+				//
+				this.x = frogX;
+				this.y = frogY;
+				this.width = frogWidth;
+				this.height = frogHeight;
+				this.direction = frogDirection;
+
+				this.img = new Image();
+				this.img.src = frogImg;
+			}
+
+			// Methods for frog movement
+			hopLeft(){
+				// ADD YOUR CODE HERE
+				this.x -= 75;
+			}
+			hopRight(){
+				// ADD YOUR CODE HERE
+				this.x += 75;
+			}
+			hopUp(){
+				// ADD YOUR CODE HERE
+				this.y -= 75;
+			}
+			hopDown(){
+				// ADD YOUR CODE HERE
+				this.y += 75;
+			}
+
+
+			// This method will be called by the gameDraw function.
+			// It should draw a picture of the frog on the screen.
+			draw(){
+				//
+				// ADD YOUR DRAW CODE HERE
+				//
+				c.drawImage(this.img,
+				this.x,
+				this.y,
+				this.width,
+				this.height);
+			}
+
+
+			// This function returns true if this frog intersects "obj",
+			// where "obj" is either a car object or a log object.
+			// Returns false otherwise.
+			// Example: if (frog1.intersects(log1)){ ... }
+			intersects(obj){
+				if (this.x < obj.x + obj.width &&
+					this.x + this.width > obj.x &&
+					this.y < obj.y + obj.height &&
+					this.y + this.height > obj.y)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+	
+		// Canvas context; used to call Canvas methods
+		var c;
+
+		// Canvas width and height.
+		var cWidth, cHeight;
+
+		// Stores the current keyboard state
+		var curkeys = [];
+		
+		// Stores keys that have been newly pressed since last update
+		var newkeys = [];
+		
+		// Global variable for the crab's movement
+		var picHorMove = true;
+		var picMovRight = true;
+		var picMovLeft = true;
+
+		//Initialize objects
+		var log1 = new logClass(50, 25, 200, 100, "log.png");
+		var log2 = new logClass(50, 100, 150, 75, "log.png");
+		var car1 = new carClass(300, 300, 200, 100, "car.png");
+		var car2 = new carClass(300, 400, 200, 100, "blue car.png");
+		var car3 = new carClass(300, 400, 200, 100, "pink car.png");
+		var car4 = new carClass(300, 300, 200, 100, "green car.png");
+		var frog1 = new frogClass(500, 525, 80, 80, "down", "frogIdle.png");
+		var hearts = new Image();
+		var bgMusic = new Audio("maestro.mp3");
+		//var fly = new Image();
+		hearts.src = "heart.png";
+		//fly.src = "fly.png";
+
+		// The current game state, can be one of: "play", "win", "lose"
+		// You won't be working with this until Task #4
+		var gameState = "play";
+		
+		var gameLives = 3;
+
+		// Initializes entire game framework. This method should only be called
+		// once, by the body onload event handler.
+		function gameFrameworkInit()
+		{		
+			// Initialize key arrays
+			for (i = 0; i < 256; i++){
+				curkeys[i] = false;
+				newkeys[i] = false;
+			}
+		
+			// Initialize global variables for canvas
+			c = myCanvas.getContext('2d');
+			cWidth = myCanvas.width;
+			cHeight = myCanvas.height;
+
+
+			// Start listeners for getting keyboard state
+	        window.addEventListener('keydown',
+	        						 function(e){
+										if (!curkeys[e.keyCode]){
+											curkeys[e.keyCode] = true;
+											newkeys[e.keyCode] = true;
+										}
+									 }
+	        					   );
+	        
+	        window.addEventListener('keyup',
+	        						 function(e){ curkeys[e.keyCode] = false; }
+	        					   );
+
+			// Schedule the update function to be called right before the next repaint.
+			// (At the end of the update function, it will schedule itself to be called
+			// again before the NEXT repaint, and so on.
+			window.requestAnimationFrame(gameUpdate);
+		}
+
+		// Main update loop for the entire game
+		function gameUpdate()
+		{
+			//
+			// YOUR CODE GOES HERE
+			//
+			if (gameState == "play")
+				{
+					if (newkeys[37])
+					{
+						frog1.hopLeft();
+						frog1.img.src = "frogLeft.png";
+						
+					}
+					if (newkeys[39])
+					{
+						frog1.hopRight();
+						frog1.img.src = "frogRight.png";
+					}
+					if (newkeys[38])
+					{
+						frog1.hopUp();
+						frog1.img.src = "frogJump.png";
+				
+					}
+					if (newkeys[40])
+					{
+						frog1.hopDown();
+						frog1.img.src = "frogDown.png";
+					}
+				}
+			
+				//Game outcomes that result in a restart
+					if (frog1.intersects(log1))
+					{
+						alert("Your frog got hit by a log!");
+						frog1.x = 500;
+						frog1.y = 525;
+						gameLives--;
+					}
+					if (frog1.intersects(log2))
+					{
+						alert("Your frog got hit by a log!");
+						frog1.x = 500;
+						frog1.y = 525;
+						gameLives--;
+					}
+					if (frog1.intersects(car1))
+					{
+						alert("Your frog got hit by a car!");
+						frog1.x = 500;
+						frog1.y = 525;
+						gameLives--;
+					}
+					if (frog1.intersects(car2))
+					{
+						alert("Your frog got hit by a car!");
+						frog1.x = 500;
+						frog1.y = 525;
+						gameLives--;
+					}
+					if (frog1.intersects(car3))
+					{
+						alert("Your frog got hit by a car!");
+						frog1.x = 500;
+						frog1.y = 525;
+						gameLives--;
+					}
+					if (frog1.intersects(car4))
+					{
+						alert("Your frog got hit by a car!");
+						frog1.x = 500;
+						frog1.y = 525;
+						gameLives--;
+					}
+					//if (frog1.intersects("fly.png"))
+					//{
+						//alert("Congratulations, you won!");
+					//}
+				
+			//
+			// DO NOT ADD ANY CODE BELOW THIS, OR MODIFY ANY CODE BELOW THIS
+			//
+
+			// Reset newkeys
+			for (i = 0; i < 256; i++){
+				newkeys[i] = false;
+			}
+
+			// At the end of the update function, repaint the screen
+			gameDraw();
+				
+			// Last thing the update function does is to schedule itself to be called
+			// again before the next repaint
+			window.requestAnimationFrame(gameUpdate);
+		}
+
+
+		// Main draw loop for the entire game
+		function gameDraw(){
+			// Clear the canvas before we draw the current frame
+			c.clearRect(0,0,cWidth,cHeight);
+
+			//
+			// YOUR DRAW CODE GOES HERE
+			//
+			if (gameState == "play")
+			{
+				bgMusic.play();
+				bgMusic.loop = true;
+				log1.draw();
+				log1.move();
+				log2.draw();
+				log2.wrap();
+				car1.draw();
+				car1.bounce();
+				car2.draw();
+				car2.backup();
+				//car3.draw();
+				//car3.slow();
+				//car4.draw();
+				//car4.drive();
+				frog1.draw();
+				//c.drawImage(fly, 20, 10, 50, 50);
+				
+				if (gameLives == 3)
+				{
+					c.drawImage(hearts, 620, 550, 55, 50);
+					c.drawImage(hearts, 680, 550, 55, 50);
+					c.drawImage(hearts, 740, 550, 55, 50);
+				}
+				
+				if (gameLives == 2)
+				{
+					c.drawImage(hearts, 620, 550, 55, 50);
+					c.drawImage(hearts, 680, 550, 55, 50);
+				}
+				
+				if (gameLives == 1)
+				{
+					c.drawImage(hearts, 620, 550, 55, 50);
+				}
+				
+				if (gameLives == 0)
+				{
+					gameState = "lose";
+				}
+			}
+			if (gameState == "lose")
+			{
+				frog1.draw();
+				c.font = "30px Mistral";
+				c.fillStyle = "white";
+				c.fillText("You lost! Your frog has run out of lives.", 200, 300);
+			}
+			if (gameState == "win")
+			{
+				c.font = "100px Mistral";
+				c.fillStyle = "white";
+				c.fillText("You won! Press space to play again.", 250, 300);
+				frog1.draw();
+			}
+			c.font = "25px Mistral";
+			c.fillStyle = "white";
+			c.fillText("Lives: " + gameLives, 300, 585);
+		}
+
+	</script>
+
+</head>
+
+
+<body onload="gameFrameworkInit()">
+	
+	<canvas id="myCanvas" width="800" height="600"></canvas>
+
+</body>
+
+
+</html>
