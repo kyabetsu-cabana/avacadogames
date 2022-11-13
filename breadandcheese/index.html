@@ -1,0 +1,380 @@
+<html>
+<head>
+
+	<style>
+		canvas
+		{
+			background-image: url("kitchen.png");
+			background-size: 100% 100%;
+		}
+	</style>
+
+	<script>
+
+		// This class is for the user-controlled bread object
+		class breadClass
+		{
+			// Constructor
+			constructor()
+			{
+				this.x = 325;
+				this.y = 500;
+				this.width = 150;
+				this.height = 40;
+
+				this.img = new Image();
+				this.img.src = "Bread.png";
+			}
+
+			// Movement methods - don't let bread move off the screen
+			moveRight()
+			{
+				if (this.x + this.width < cWidth-5)
+				{
+					this.x += 5;
+				}
+			}
+			moveLeft()
+			{
+				if (this.x > 5)
+				{
+					this.x -= 5;
+				}
+			}
+			moveUp()
+			{
+				if (this.y > 5)
+				{
+					this.y -= 5;
+				}
+			}
+			moveDown()
+			{
+				if (this.y + this.height < cHeight-5)
+				{
+					this.y += 5;
+				}
+			}
+
+			// Draw method
+			draw()
+			{
+				c.drawImage(this.img, this.x, this.y, this.width, this.height);
+			}
+		}
+
+
+		// This class is for the cheese object
+		class cheeseClass
+		{
+			// Constructor
+			constructor()
+			{
+				this.x = 50;
+				this.y = 100;
+				this.width = 40;
+				this.height = 40;
+
+				// dx and dy represent the cheese object's speed in
+				// the x- and y-direction respectively
+				this.dx = 5;
+				this.dy = 5;
+
+				this.img = new Image();
+				this.img.src = "Cheese.png";
+			}
+
+			// This function returns true if this cheese intersects "obj", where "obj" is
+			// either a tomato object or a bread object. Returns false otherwise.
+			intersects(obj)
+			{
+				if (this.x < obj.x + obj.width &&
+					this.x + this.width > obj.x &&
+					this.y < obj.y + obj.height &&
+					this.y + this.height > obj.y)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+
+			// Main update function for cheese, takes care of:
+			//		1. cheese movement
+			//		2. edge logic (bounce off of edges, die at the bottom edge)
+			//		3. bounce off of bread
+			//		4. eliminate tomatoes that we hit
+			update()
+			{
+				// Move
+				this.x += this.dx;
+				this.y += this.dy;
+
+
+				// Bounce off of left wall
+				if (this.x < 0 && this.dx < 0)
+				{
+					this.dx *= -1;
+				}
+
+				// Bounce off of right wall
+				if (this.x + this.width > cWidth && this.dx > 0)
+				{
+					this.dx *= -1;
+				}
+
+				// Bounce off of top
+				if (this.y < 0 && this.dy < 0)
+				{
+					this.dy *= -1;
+				}
+
+				// Bottom edge: cheese dies, start new cheese
+				if (this.y + this.height > cHeight && this.dy > 0)
+				{
+					gameLives--;
+					this.x = 50;
+					this.y = 100;
+					oops.play();
+				}
+
+				// bounce off of bread
+				if (this.intersects(bread))
+				{
+					this.dy *= -1
+					boing.play();
+				}
+
+				// eliminate tomatoes that we hit
+				for (i = 0; i < 16; i++)
+				{
+					if (tomatoArray[i].bVisible == true &&
+						this.intersects(tomatoArray[i]))
+					{
+						tomatoArray[i].bVisible = false;
+						if (this.dy < 0)
+						{
+							this.dy *= -1;
+							hitCount += 10;
+							splat.play();
+						}
+					}
+				}
+			}
+
+			// Draw method
+			draw()
+			{
+				c.drawImage(this.img, this.x, this.y, this.width, this.height);
+			}
+		}
+
+
+
+		// This class is for the on-screen tomato objects
+		class tomatoClass
+		{
+			// Constructor
+			constructor(tomatoX, tomatoY)
+			{
+				this.x = tomatoX;
+				this.y = tomatoY;
+				this.width = 40;
+				this.height = 40;
+				this.bVisible = true;	// tomatoes start off being visible
+
+				this.img = new Image();
+				this.img.src = "Tomato.png";
+			}
+
+			// Draw method
+			draw()
+			{
+				if (this.bVisible)
+				{
+					c.drawImage(this.img, this.x, this.y, this.width, this.height);
+				}
+			}
+		}
+
+		// Canvas context; used to call Canvas methods
+		var c;
+
+		// Canvas width and height.
+		var cWidth, cHeight;
+
+		// Stores the current keyboard state
+		var curkeys = [];
+		
+		// Stores keys that have been newly pressed since last update
+		var newkeys = [];
+
+		//Keep count of how many times a tomato is hit
+		var hitCount = 0;
+		
+		//Keep count of how many times the cheese hits the bottom edge
+		var gameLives = 3;
+
+		// Our global variables (bread, cheese, tomatoes)
+		var bread, cheese;
+		var tomatoArray = [];
+		
+		// Our global variables for sound (boing, oops, splat)
+		var boing = new Audio("boing.wav");
+		var oops = new Audio("oops.mp3");
+		var splat = new Audio("splat.mp3");
+		var bgMusic = new Audio("folk.mp3");
+
+		// The current game state, can be one of: "play", "gameover", or "tutorial"
+		var gameState = "tutorial";
+
+		// Initializes entire game framework. This method should only be called
+		// once, by the body onload event handler.
+		function gameFrameworkInit()
+		{
+			// Initialize key arrays
+			for (i = 0; i < 256; i++)
+			{
+				curkeys[i] = false;
+				newkeys[i] = false;
+			}
+		
+			// Initialize global variables for canvas
+			c = myCanvas.getContext('2d');
+			cWidth = myCanvas.width;
+			cHeight = myCanvas.height;
+
+			// Initialize global variables for our game
+			bread = new breadClass();
+			cheese = new cheeseClass();
+
+			// Populate tomatoArray[] with 16 tomatoes spread out near the top of the canvas
+			for (i = 0; i < 16; i++)
+			{
+				tomatoArray[i] = new tomatoClass(50*i, 20);
+			}
+			
+			// Start listeners for getting keyboard state
+	        window.addEventListener('keydown', function(e){if (!curkeys[e.keyCode]){curkeys[e.keyCode] = true; newkeys[e.keyCode] = true;}});
+	        window.addEventListener('keyup', function(e){curkeys[e.keyCode] = false;});
+			
+			//Displays the instruction screen when first loading
+			if (gameState == "tutorial")
+			{
+				alert("To play, move the bread using the arrow keys. \n Your goal is to eliminate all the tomatoes on the screen.");
+			}
+
+			// Schedule the update function to be called right before the next repaint.
+			// (At the end of the update function, it will schedule itself to be called
+			// again before the NEXT repaint, and so on.
+			window.requestAnimationFrame(gameUpdate);
+		}
+
+		// Main update loop for the entire game
+		function gameUpdate()
+		{
+			if (gameState == "tutorial")
+			{
+				if (curkeys[13])
+				{
+					gameState = "play";
+					bgMusic.play();
+					bgMusic.loop = true;
+				}
+			}
+			
+			if (gameState == "play")
+			{
+
+				// Arrow keys for bread movement
+				// ADD YOUR CODE HERE
+				if (curkeys[37])
+				{
+					bread.moveLeft();
+				}
+				if (curkeys[39])
+				{
+					bread.moveRight();
+				}
+				if (curkeys[38])
+				{
+					bread.moveUp();
+				}
+				if (curkeys[40])
+				{
+					bread.moveDown();
+				}
+
+				//If all lives are lost, display a "game over" screen
+				if (gameLives < 1)
+				{
+					gameState = "gameover";
+				}
+
+				// Move/update the cheese object
+				// ADD YOUR CODE HERE
+				cheese.update();
+			}
+			
+			// DO NOT ADD OR MODIFY ANY CODE BELOW HERE
+			// Reset newkeys
+			for (i = 0; i < 256; i++)
+			{
+				newkeys[i] = false;
+			}
+
+			// At the end of the update function, repaint the screen
+			gameDraw();
+				
+			// Last thing the update function does is to schedule itself to be called
+			// again before the next repaint
+			window.requestAnimationFrame(gameUpdate);
+		}
+
+
+		// Main draw loop for the entire game
+		function gameDraw()
+		{
+			// Clear the canvas before we draw the current frame
+			c.clearRect(0, 0, cWidth, cHeight);
+
+			// Draw bread/cheese/tomatoes
+			bread.draw();
+			cheese.draw();
+			for (i = 0; i < 16; i++)
+			{
+				tomatoArray[i].draw();
+			}
+
+			if (gameState == "gameover")
+			{
+				c.font = "50px Mistral";
+				c.fillStyle = "white";
+				c.fillText("You lost!", 350, 300);
+				
+				//if (curkeys[13])
+				//{
+					//gameState = "play";
+				//}
+			}
+
+			c.font = "30px Mistral";
+			c.fillStyle = "white";
+			c.fillText("Points: " + hitCount, 50, 485);
+			c.fillText("Lives: " + gameLives, 50, 545);
+		}
+
+
+	</script>
+
+
+</head>
+<body onload="gameFrameworkInit()">
+	
+	<canvas id="myCanvas" width="800" height="600"></canvas>
+
+</body>
+</html>
