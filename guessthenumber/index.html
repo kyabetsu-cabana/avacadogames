@@ -1,0 +1,235 @@
+<html>
+
+	<head>
+		
+		<title>Guess the Number</title>
+		<!--link rel=stylesheet type="text/css" href="template.css"-->
+		<!--Custom buttons sourced from w3schools-->
+		
+		<style type="text/css">
+			body
+			{
+				background-image: url("numbers.jpg");
+				border: ridge;
+				border-color: turquoise purple lightblue mediumvioletred;
+				border-width: 5em;
+				border-radius: 60px;
+				padding: 33px;
+				font-size: 25px;
+				color: midnightblue;
+				font-family: bradley hand itc;
+				text-align: center;
+			}
+			.button
+			{
+				background-color: orchid;
+				border: none;
+				color: white;
+				padding: 16px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 25px;
+				margin: 4px 2px;
+				-webkit-transition-duration: 0.4s;
+				transition-duration: 0.4s;
+				cursor: pointer;
+				font-family:bradley hand itc;
+			}
+			.button1
+			{
+				background-color: white; 
+				color: black; 
+				border: 2px solid orchid;
+				font-family:bradley hand itc;
+			}
+			.button1:hover 
+			{
+				background-color: orchid;
+				color: white;
+				font-family:bradley hand itc;
+			}
+			h1
+			{
+				text-shadow: 2px 44px 14px darkviolet;
+				font-family:copperplate;
+			}
+		</style>
+		
+		<script>
+				//The following global variables will be counted and stored in the console or div element
+				var countCompWins = 0;
+				
+				var countUserWins = 0;
+				
+				var countRounds = 0;
+				
+				var countGuesses = 6;
+				
+				var num;
+				
+				function defaultSettings()
+				{
+					//Displays the instructions when loading the page for the first time
+					var output = "";
+					output += "INSTRUCTIONS: The computer will generate a number between 1 and 50. "
+					output += "The user has six tries to guess the correct number. If the user does not guess "
+					output += "the correct number within the six guesses given, they will lose the round and "
+					output += "a new round will begin. The first to win five rounds is the winner of the match. "
+					output += "Good luck, player!"
+					idDivInstructions.innerHTML = output;
+					
+					//Prepares the game by generating a random number
+					num = Math.random();
+					num = num * (50 - 1 + 1);
+					num = Math.floor(num);
+					num = num + 1;
+					console.log(num);
+					
+					//Shows the default/maximum number of guesses
+					idDivGuesses.innerHTML = countGuesses;
+				}
+
+				function checkGuess()
+				{
+					//The user's guess goes here
+					var input = Number(idNumGuess.value);
+					
+					var output = "";
+					
+					//Makes the instructions disappear after the user has begun to play
+					idDivInstructions.innerHTML = "";
+					
+					//When you win a round
+					if (countRounds < 6 && input == num)
+					{
+						output += "Good job, you guessed the correct number! A new round will now begin.";
+						countRounds++;
+						countUserWins++;
+						countGuesses = 6;
+						idDivRounds.innerHTML = countRounds;
+						idDivUserWins.innerHTML = countUserWins;
+						idDivCompWins.innerHTML = countCompWins;
+						idDivGuesses.innerHTML = countGuesses;
+						
+						//Generates a new number
+						num = Math.random();
+						num = num * (50 - 1 + 1);
+						num = Math.floor(num);
+						num = num + 1;
+						console.log(num);
+					}
+					//When your guess is too high and the number of guesses hasn't run out
+					else if (countRounds < 6 && input > num && countGuesses > 0)
+					{
+						output += "Your guess was too high! Try again.";
+						countGuesses--;
+						idDivRounds.innerHTML = countRounds;
+						idDivUserWins.innerHTML = countUserWins;
+						idDivCompWins.innerHTML = countCompWins;
+						idDivGuesses.innerHTML = countGuesses;
+					}
+					//When your guess is too low and the number of guesses hasn't run out
+					else if (countRounds < 6 && input < num && countGuesses > 0)
+					{
+						output += "Your guess was too low! Try again.";
+						countGuesses--;
+						idDivRounds.innerHTML = countRounds;
+						idDivUserWins.innerHTML = countUserWins;
+						idDivCompWins.innerHTML = countCompWins;
+						idDivGuesses.innerHTML = countGuesses;
+					}
+					//When you lose a round
+					else if (countRounds < 6 && input !== num && countGuesses == 0)
+					{
+						output += "Sorry, looks like you lost the round. A new round will now begin.";
+						countRounds++;
+						countCompWins++;
+						countGuesses = 6;
+						idDivRounds.innerHTML = countRounds;
+						idDivUserWins.innerHTML = countUserWins;
+						idDivCompWins.innerHTML = countCompWins; 
+						idDivGuesses.innerHTML = countGuesses;
+						
+						//Generates a new number
+						num = Math.random();
+						num = num * (50 - 1 + 1);
+						num = Math.floor(num);
+						num = num + 1;
+						console.log(num);
+					}
+					//If the computer's number of rounds won is greater than the user's after 6 rounds
+					if (countRounds == 6 && countUserWins < countCompWins)
+					{
+						output = "Game over, you lost. Better luck next time!";
+						location.reload();
+						
+					}
+					//If the user's number of rounds won is greater than the computer's after 6 rounds
+					else if (countRounds == 6 && countUserWins > countCompWins)
+					{
+						output = "Congratulations, you won the game!";
+						location.reload();
+					}
+					
+					//Alerts the user whether their guess is correct
+					window.alert(output);
+				}
+				
+				function showNum()
+				{
+					//Shows the answer
+					idDivCheat.innerHTML = num;
+				} 
+				
+				function restartGame()
+				{
+					//Resets all settings of the game to default
+					location.reload();
+				}
+				
+		</script>
+		
+	</head>
+	
+	<body onLoad="defaultSettings()">
+			<form id="idGameForm">
+					<h1>GUESS THE NUMBER: THE GAME</h1>
+					<br><br>
+					
+					Your number guess:
+					<input type="text" id="idNumGuess">
+					<br><br>
+					
+					<input type="button" class="button button1" value="Check Guess" onClick="checkGuess()">
+					<input type="reset" class="button button1" value="Restart Game" onClick="restartGame()">
+					<br><br>
+					
+					Number of guesses remaining:
+					<div id="idDivGuesses"></div>
+					<br><br>
+					
+					Number of rounds played:
+					<div id="idDivRounds"></div>
+					<br><br>
+					
+					Number of rounds you won:
+					<div id="idDivUserWins"></div>
+					<br><br>
+					
+					Number of rounds the computer won:
+					<div id="idDivCompWins"></div>
+					<br><br>
+					
+					Give up?
+					<input type="button" class="button button1" value="Cheat" onClick="showNum()">
+					<br><br>
+					
+					<div id="idDivCheat"></div>
+					<br><br>
+					
+					<div id="idDivInstructions"></div>
+			</form>
+	</body>
+	
+</html>
